@@ -52,7 +52,7 @@ Here you’ll find a collection of academic and professional projects showcasing
 
 **Skills & Tools:** Python, NumPy, Pandas, Matplotlib, SVM, optimisation, linear/integer programming, multi-class classification  
 
-🔗 [View Project](https://github.com/your-username/advanced-analytics-models-applications)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/Group-11-AAMA.zip)
 
 ---
 
