@@ -18,7 +18,7 @@ Here you’ll find a collection of academic and professional projects showcasing
 - Applied statistical techniques to evaluate **errors, confidence, and AI performance**  
 - Recommended improvements for **model deployment**  
 
-🔗 [View Project](link-to-your-repo)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/IB98D0_Group32.pdf)
 
 ---
 
