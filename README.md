@@ -65,7 +65,7 @@ Here you’ll find a collection of academic and professional projects showcasing
 
 **Skills & Tools:** Python, Pandas, scikit-learn, PyTorch, Plotly, Tableau, machine learning, CRISP-DM, client communication  
 
-🔗 [View Project](https://github.com/your-username/analytics-in-practice)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/group_number_34.zip)
 
 ---
 
