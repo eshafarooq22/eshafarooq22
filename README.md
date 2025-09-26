@@ -7,7 +7,9 @@ Here you’ll find a collection of academic and professional projects showcasing
 ## 🚀 Projects
 ### 🔧 Optimisation Models Project
 - Led a **5-member team** to solve **10 supply chain, production, and finance optimisation problems** in Python (Spyder)  
-- Designed **custom algorithms** for AI-resistant cases  
+- Designed **custom algorithms** for AI-resistant cases
+
+**Skills & Tools:** Python, algorithm design, optimisation, teamwork  
 
 🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/Group-39.zip)
 
@@ -16,7 +18,9 @@ Here you’ll find a collection of academic and professional projects showcasing
 ### 📊 Advanced Data Analysis Project
 - Analysed **A/B test data** in Python  
 - Applied statistical techniques to evaluate **errors, confidence, and AI performance**  
-- Recommended improvements for **model deployment**  
+- Recommended improvements for **model deployment**
+
+**Skills & Tools:** Python, data analysis, A/B testing, statistical evaluation  
 
 🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/IB98D0_Group32.pdf)
 
@@ -24,7 +28,9 @@ Here you’ll find a collection of academic and professional projects showcasing
 
 ### 🗄️ Data Management Project
 - Designed and normalised an **SQLite database** for a beauty e-commerce startup  
-- Generated **500+ synthetic records**, created **ERD**, and delivered SQL-driven insights on **sales and customer behaviour**  
+- Generated **500+ synthetic records**, created **ERD**, and delivered SQL-driven insights on **sales and customer behaviour**
+  
+**Skills & Tools:** SQLite, SQL, database design, data management  
 
 🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/DM-Group-31.zip)
 
@@ -90,7 +96,7 @@ Here you’ll find a collection of academic and professional projects showcasing
 
 **Skills & Tools:** Python, Pandas, NumPy, PuLP (or linear programming solver), Matplotlib, revenue management, optimisation, fleet utilisation  
 
-🔗 [View Project](https://github.com/your-username/pricing-analytics)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/PA_Group7.zip)
 
 ---
 ## 🛠️ Skills Highlighted
