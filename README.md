@@ -44,6 +44,19 @@ Here you’ll find a collection of academic and professional projects showcasing
 
 ---
 
+### 🤖 Advanced Analytics: Models and Applications
+- Implemented a **Support Vector Machine (SVM)** classifier in Python using the **Feasible Direction Method**  
+- Solved SVM optimisation problems with **bound constraints** for binary classification of **Iris plant species**  
+- Designed a modified optimisation problem for multi-class classification using slack variables  
+- Documented parameter selection (tolerance and `M`/`C` values) and explained algorithm implementation decisions  
+
+**Skills & Tools:** Python, NumPy, Pandas, Matplotlib, SVM, optimisation, linear/integer programming, multi-class classification  
+
+🔗 [View Project](https://github.com/your-username/advanced-analytics-models-applications)
+
+---
+
+
 ## 🛠️ Skills Highlighted
 - **Programming & Tools**: Python (Pandas, NumPy, Matplotlib, SciPy), SQLite, SQL, Spyder  
 - **Finance & Business**: Capital strategy, KPIs, WACC, debt management  
