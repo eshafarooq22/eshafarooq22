@@ -30,6 +30,18 @@ Here you’ll find a collection of academic and professional projects showcasing
 
 ---
 
+### 📊 Business Statistics Project
+- Completed a professional **RMarkdown** assignment producing a **reproducible HTML report**  
+- Analysed **Cardiovascular Disease prevalence** in England and **customer satisfaction data** from a retail company  
+- Applied **NHST and estimation approaches**, validated datasets, and presented results clearly with professional visualisations  
+- Designed workflow so another analyst could reproduce the entire analysis  
+
+**Skills & Tools:** R, RMarkdown, tidyverse, regression, hypothesis testing, data visualisation  
+
+🔗 [View Project](https://github.com/your-username/business-statistics-project)
+
+---
+
 ## 🛠️ Skills Highlighted
 - **Programming & Tools**: Python (Pandas, NumPy, Matplotlib, SciPy), SQLite, SQL, Spyder  
 - **Finance & Business**: Capital strategy, KPIs, WACC, debt management  
