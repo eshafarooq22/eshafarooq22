@@ -1,0 +1,630 @@
+---
+title: 'Business Statistics End of Term Assessment IB94X0 2024-2025 #1'
+author: '5613045'
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+---
+
+
+---
+
+I declare that the submitted work is my own and that those external sources have been identified and cited according to the university's plagiarism regulations. AI tools were utilized for code enhancement and as well as assistance, all analysis, interpretation and conclusions were drawn solely by me. This assignment was completed without breaking any rules or policies of the university.
+
+
+# Question 1
+## Introduction 
+
+In England, Cardiovascular Disease (CVD) is a major public health problem that accounts for a significant burden of morbidity and mortality. CVD prevalence is not distributed evenly across individuals, regions, or nations; this paper addresses factors which may help explain the degree of variation in CVD prevalence between local authorities, with implications for both preventative efforts and health policy decision making. This analysis explores the association between CVD prevalence and numerous social and lifestyle factors, including the percentage of the population who are overweight, percentage living in poverty, percentage who smoke, and mean well-being score per region. Using data from the UK Office of National Statistics, advanced statistical approaches will be applied to these variables to determine which ones are most important to the prevalence of CVD. A further detailed visualization will also be made demonstrating how poverty affects CVD rates. Results will be summarized using Office for National Statistics (ONS) data tabling and re-population conventions in order to strengthen the transparency and accessibility of the findings.
+
+
+```{r setup, message=FALSE, echo=FALSE}
+knitr::opts_chunk$set(warning = FALSE)
+library(tidyverse)
+library(emmeans)
+library(gridExtra) # For arranging of the plots
+library(Hmisc) # For descriptive statistics and correlation
+library(car)
+```
+
+
+## Data Dictionary 
+Variable | Description
+------------- | -------------
+area_name| The geographic location
+area_code | Unique code for each of the geographical area
+Population| The total number of people living in each different area 
+Poverty| The total number of populations that is in each poverty area
+CVD| It represents the total number of cardiovascular disease cases in each of the areas 
+overweight| The proportion of individuals in the area identified as overweight
+smokers| The fraction of the population in the region that engages in smoking
+wellbeing| The mean wellbeing score for residents within the region
+
+## Explorartory Analysis	
+```{r}
+# Data Import : we imported the dataset in R Studio through the use of the read_csv function from the read r package. This enables CSV files to seamlessly load into R for further exploration. Summary Statistics Once the data is imported, summary statistics were created to get a feel for the data. Using this step gave an idea of means, medians, ranges, counts, etc., all of which are good indicators of the distribution and variability in the data.
+
+cvd_data <- read_csv("Cardio_Vascular_Disease.csv")
+# Summary statistics
+summary(cvd_data)
+```
+
+### Cleaning and Transforming Data
+```{r}
+str(cvd_data)  #this helps in identifying the format of the columns 
+```
+
+```{r}
+cvd_data <- cvd_data %>%
+  mutate_at(vars(Poverty, overweight, smokers, wellbeing, CVD), as.numeric)
+```
+
+This overwrites cvd_data with the output that was transformed. The %>% operator (pipe) allows us to provide the cvd_data dataset directly as input to the next function (mutate_at). The tense is part of the tidyverse syntax for making data manipulation pipelines readable. The ‘dplyr’ function modifies some columns. After this a list of the columns to be changed in here, like the columns Poverty, overweight, smokers, wellbeing and CVD. Then as.numeric converts the data into numeric if only the column is not numeric. 
+
+```{r}
+str(cvd_data)  #this helps in identifying the format of the columns 
+```
+
+```{r}
+# checking the missing values 
+cvd_data <- cvd_data %>%
+  drop_na()
+
+# Summary statistics
+summary(cvd_data)
+
+# Data Quality Assessment: A thorough data quality assessment was done to ensure the accuracy and reliability of the dataset. This step involved looking for missing values, inconsistencies and outliers. 
+
+```
+
+### Plotting the distributions
+
+#### Distribution Plots
+```{r}
+#It shows a combined density plot and histogram to visualize the distribution of Cardiovascular Disease (CVD) values in the dataset
+
+ggplot(cvd_data, aes(x = CVD)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "lightblue", color = "black") +
+  geom_density(color = "red", linewidth = 1) +  
+  labs(
+    title = "Density Plot with Histogram of CVD",
+    x = "CVD",
+    y = "Density"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+
+The graph is a combination of histogram and density plot showing distribution of Cardiovascular Disease (CVD) values. Light blue: the histogram of the observed values for CVD(In-Chip Array), and the smoothed density curve (in red) for the CVD values It is unimodal with the most frequent range of the CVD values near a state at 12.5. The mild right skew shows that a few higher CVD points were stretching the distribution. This CDF plot gives us mean and distribution (mean and variance) of CVD values.
+
+
+
+```{r}
+
+common_theme <- theme(
+  plot.title = element_text(hjust = 0.5, face = "bold"),
+  panel.background = element_rect(fill = "white"),
+  panel.grid.major = element_line(color = "grey90")
+)
+
+# Plot 2: Distribution of Smoking Rates
+p2 <- ggplot(cvd_data, aes(x = smokers)) +
+  geom_histogram(color = "black", fill = "#ffa07a", alpha = 0.8) + 
+  labs(
+    title = "Distribution of Smoking Rates",
+    x = "Smoking Rate (%)",
+    y = "Count"
+  ) +
+  common_theme
+
+# Plot 3: Distribution of Wellbeing Scores
+p3 <- ggplot(cvd_data, aes(x = wellbeing)) +
+  geom_histogram(color = "black", fill = "#9370db", alpha = 0.8) +  
+  labs(
+    title = "Distribution of Wellbeing Scores",
+    x = "Wellbeing Score",
+    y = "Count"
+  ) +
+  common_theme
+
+# Plot 4: Distribution of Poverty
+p4 <- ggplot(cvd_data, aes(x = Poverty)) +
+  geom_histogram(color = "black", fill = "#3cb371", alpha = 0.8) +  
+  labs(
+    title = "Distribution of Poverty",
+    x = "Poverty (%)",
+    y = "Count"
+  ) +
+  common_theme
+
+# Plot 5: Distribution of Overweight
+p5 <- ggplot(cvd_data, aes(x = overweight)) +
+  geom_histogram(color = "black", fill = "#4682b4", alpha = 0.8) +  
+  labs(
+    title = "Distribution of Overweight",
+    x = "Overweight (%)",
+    y = "Count"
+  ) +
+  common_theme
+
+# Arrange and display the plots
+grid.arrange(p2, p3, p4, p5, ncol = 2, nrow = 2)
+```
+
+
+### 1. Distribution of Smoking Rates  
+The prevalence of smoking typically falls within the range of 10% to 20%, with a notable peak around 15%. Instances where rates dip below 10% or rise above 20% are uncommon, suggesting that smoking habits remain relatively stable across different regions, aside from some exceptions.
+
+### 2. Distribution of Wellbeing Scores  
+Wellbeing scores exhibit a slight rightward skew, predominantly clustering between values of 7.0 and 8.0, culminating in an average score of approximately 7.5. A number of scores falling under the threshold of 7.0 indicate possible regional differences in wellbeing that may require further examination.
+
+### 3. Distribution of Poverty Rates  
+Poverty rates display a nearly normal distribution pattern, generally ranging from about 15% to 25%, with the highest concentration observed at around 20%. Although occurrences exceeding 30% are infrequent, they underscore areas that necessitate focused intervention efforts.
+
+### 4.Distribution of Overweight Percentages   
+Overweight percentages also show a slight rightward skewing; these figures primarily lie between 20% and 35%, peaking close to 30%. Only a few locales report percentages below 20% or surpassing 40%, reflecting variability that could be useful for shaping health initiatives.
+
+
+#### Scatter Plot of CVD with other factors 
+```{r}
+
+common_theme <- theme(
+  plot.title = element_text(hjust = 0.5, face = "bold"),
+  panel.background = element_rect(fill = "white"),
+  panel.grid.major = element_line(color = "grey90")
+)
+
+# Plot 1: Poverty vs CVD
+plot1 <- ggplot(cvd_data, aes(x = Poverty, y = CVD)) +
+  geom_point(color = "#1f77b4", alpha = 0.8) +  
+  labs(
+    title = "Poverty vs CVD",
+    x = "Poverty",
+    y = "CVD"
+  ) +
+  common_theme
+
+# Plot 2: Smokers vs CVD
+plot2 <- ggplot(cvd_data, aes(x = smokers, y = CVD)) +
+  geom_point(color = "#ff7f0e", alpha = 0.8) +  
+  labs(
+    title = "Smokers vs CVD",
+    x = "Smoking Rate (%)",
+    y = "CVD"
+  ) +
+  common_theme
+
+# Plot 3: Overweight vs CVD
+plot3 <- ggplot(cvd_data, aes(x = overweight, y = CVD)) +
+  geom_point(color = "#2ca02c", alpha = 0.8) +  
+  labs(
+    title = "Overweight vs CVD",
+    x = "Overweight (%)",
+    y = "CVD"
+  ) +
+  common_theme
+
+# Plot 4: Wellbeing vs CVD
+plot4 <- ggplot(cvd_data, aes(x = wellbeing, y = CVD)) +
+  geom_point(color = "#d62728", alpha = 0.8) +  
+  labs(
+    title = "Wellbeing vs CVD",
+    x = "Wellbeing Score",
+    y = "CVD"
+  ) +
+  common_theme
+
+# Arrange and display the plots in a grid 
+grid.arrange(plot1, plot2, plot3, plot4, ncol = 2, nrow = 2)
+```
+
+Poverty (%), smoking (%), overweight (%), and wellbeing (mean score) were all factors plotted in relation to prevalence of cardiovascular disease (CVD). The first plot was titled “Poverty vs. CVD.” There did not seem to be a strong visual trend, but the presence of a higher poverty rate also appeared to correlate with slightly higher variability in CVD. The second plot, "Smokers vs. CVD," depicts a weak positive correlation, in which regions with a larger proportion of smokers also tend to have higher CVD prevalence, although the correlation is weak. In the third plot, named "Overweight vs. CVD", a modest positive association can be observed, meaning that increase in overweight percentage corresponds to increase in prevalence of CVD. Finally, in the "Wellbeing vs. CVD" plot, we observe a negative trend: Higher wellbeing scores are linked to lower CVD rates. As can be seen in these a and b visuals, smoking, overweight percentage and wellbeing might be able to affect CVD prevalence, but further statistic analysis would be needed to determine the extent of influence.
+
+
+### Corelation Matrix
+```{r}
+# numeric columns 
+numeric_data <- cvd_data %>% 
+  select(CVD, Poverty, overweight, smokers, wellbeing)
+
+# correlation matrix and p-values using Hmisc's rcorr function
+correlation_results <- Hmisc::rcorr(as.matrix(numeric_data))
+
+# correlation coefficients and p-values
+correlation_results
+```
+
+#### Analyzing Correlation Matrix and the P Values
+
+Next, we are summarizing the relationships between Cardiovascular Disease (CVD), Poverty, Overweight, Smokers and Wellbeing based on the correlation matrix and p-values above. Key observations include:
+
+1. CVD and Poverty:
+- A moderate negative correlation ($r = -0.25$) is established between higher poverty rates and lower CVD prevalence.
+- There is a statistically significant relationship between the two variables ($p < 0.05$).
+
+2. CVD and Overweight:
+– A moderate positive correlation ($r = 0.32$) indicates that higher proportion of people with overweight is correlated with higher prevalence of CVD.
+- Relationship is very significant ($p < 0.001$)
+
+3. CVD and Smokers:
+– A weak positive correlation ($r = 0.18$), indicating that increased smoking rates are linked with a slightly increased CVD prevalence.
+- This association is statistically significant ($p = 0.0019$).
+
+4. CVD and Wellbeing:
+- A moderate positive correlation ($r = 0.25$) indicates that individuals with higher wellbeing scores tend to have a slightly higher prevalence of CVD.
+This result is statistically significant ($p < 0.001$).
+
+5. Poverty and Wellbeing:
+- A negative correlation of -0.35 means that higher levels of poverty are correlated with lower levels of wellbeing.
+- That relationship is statistically significant ($p < 0.001$).
+
+6. Additional Significant Relationships:
+- Overweight and Smokers, moderate positive correlation ($r = 0.40$): Higher overweight percentage relates to higher percentage of smokers.
+- Smokers & Wellbeing have a weak negative correlation ($r = -0.20$) indicating that as rates of smoking go up, wellbeing slightly declines.
+
+
+## Linear Regression
+```{r}
+# linear regression model
+cvd_model <- lm(
+  formula = CVD ~ overweight + smokers + wellbeing + Poverty,
+  data = cvd_data,
+  weights = Population
+)
+
+# summary of the model
+summary(cvd_model)
+```
+```{r}
+# confidence intervals for the model coefficients
+confidence_intervals <- confint(cvd_model)
+
+# confidence intervals
+print(confidence_intervals)
+```
+
+### Examining the Linear Regression Model
+
+We will find out how does Cardiovascular Disease (CVD) prevalence (dependent variable) dependent on those common factors weighted by the population by applying a linear regression thus we will evaluate relationship between dependent on overweight, smokers, wellbeing, poverty.
+
+#### Key Findings:
+Using estimation Method:
+The results indicate:
+
+- A significant positive effect of overweight on CVD ($t(298) = 5.515$), ($p < .001$), with every 1 unit increase in overweight predicting an average increase of 0.12 units in CVD (95% CI = [0.076, 0.160]).
+- A significant positive effect of smokers on CVD ($t(298) = 3.419$), ($p < .001$), with every 1 unit increase in the number of smokers predicting an average increase of 0.13 units in CVD (95% CI = [0.053, 0.197]).
+- A significant positive effect of wellbeing on CVD ($t(298) = 2.692$), ($p = .007$), with every 1 unit increase in wellbeing predicting an average increase of 1.45 units in CVD (95% CI = [0.391, 2.513]).
+- A significant negative effect of poverty on CVD ($t(298) = -6.900$), ($p < .001$), with every 1 unit increase in poverty predicting an average decrease of 0.22 units in CVD (95% CI = [-0.286, -0.159]).
+
+
+
+
+
+```{r}
+# Variance Inflation Factor (VIF) to check for multicollinearity
+vif(cvd_model)
+
+```
+
+#### VIF
+
+The VIF values suggested no multicollinearity if the VIF is less than 5 for the predictors in the regression model. The VIF for all predictors (overweight (VIF = 1.27), smokers (VIF = 1.45), wellbeing (VIF = 1.23), and poverty (VIF = 1.32)) are far below a common threshold of 5 indicating low multicollinearity. This implies a weak association of independent variables with each other and guarantees that each factor leads independent information to clarify the variation of CVD prevalence. The low VIF values increase the overall confidence in the model, given that the regression coefficients are stable, and that one can be confident in using the predictors for inference and prediction.
+
+
+### Interaction Model
+
+To better understand the factors influencing CVD prevalence, an interaction model was employed to evaluate the combined effects of overweight, smoking, wellbeing, and poverty on CVD rates.
+
+```{r}
+# Linear regression model with interaction terms
+cvd_model_interaction <- lm(
+  formula = CVD ~ (overweight + smokers + wellbeing + Poverty)^2,
+  data = cvd_data,
+  weights = Population
+)
+
+# interaction model
+summary(cvd_model_interaction)
+
+# confidence intervals for the coefficients
+interaction_confidence_intervals <- confint(cvd_model_interaction)
+print(interaction_confidence_intervals)
+```
+The results indicate:
+
+- A non-significant effect of overweight on CVD ($t(292) = 0.571$), ($p = 0.568$), with an estimated coefficient of 0.54 (95% CI = [-1.31, 2.39]).  
+- A non-significant effect of smokers on CVD ($t(292) = -0.897$), ($p = 0.370$), with an estimated coefficient of -1.15 (95% CI = [-3.69, 1.38]).  
+- A significant positive effect of wellbeing on CVD ($t(292) = 2.063$), ($p = 0.040$), with every 1-unit increase in wellbeing predicting an average increase of 7.88 units in CVD prevalence (95% CI = [0.64, 15.40]).  
+- A marginally significant positive effect of poverty on CVD ($t(292) = 1.831$), ($p = 0.067$), with every 1-unit increase in poverty predicting an average increase of 2.08 units in CVD prevalence (95% CI = [-0.15, 4.30]).  
+
+### Interaction Terms: Using Estimation
+- A non-significant interaction between overweight and smokers ($t(292) = -0.979$), ($p = 0.328$), with an estimated coefficient of -0.006 (95% CI = [-0.016, 0.005]).  
+- A non-significant interaction between overweight and wellbeing ($t(292) = -0.727$), ($p = 0.467$), with an estimated coefficient of -0.085 (95% CI = [-0.32, 0.15]).  
+- A significant positive interaction between overweight and poverty on CVD ($t(292) = 2.016$), ($p = 0.045$), with every 1-unit increase in the interaction term predicting an average increase of 0.014 units in CVD prevalence (95% CI = [0.0003, 0.028]).  
+- A non-significant interaction between smokers and wellbeing ($t(292) = 1.224$), ($p = 0.222$), with an estimated coefficient of 0.196 (95% CI = [-0.19, 0.59]).  
+- A non-significant interaction between smokers and poverty ($t(292) = -0.215$), ($p = 0.830$), with an estimated coefficient of -0.002 (95% CI = [-0.02, 0.019]).  
+- A significant negative interaction between wellbeing and poverty on CVD ($t(292) = -2.325$), ($p = 0.020$), with every 1-unit increase in the interaction term predicting an average decrease of 0.36 units in CVD prevalence (95% CI = [-0.66, -0.05]).  
+
+This analysis highlights that wellbeing and interactions between overweight and poverty (positive) and wellbeing and poverty (negative) significantly influence CVD, while other predictors and interactions are not statistically significant..
+
+
+##Testing model significnace with ANOVA
+
+```{r}
+# ANOVA to compare the models
+anova_comparison <- stats::anova(cvd_model, cvd_model_interaction)
+
+# results of the comparison
+anova_comparison
+```
+
+### ANOVA Results
+
+After rounding, the ANOVA comparison tests the significance of the difference between Model 1 (without interaction terms) and Model 2 (including interaction terms) to see if adding interactions produces a significantly better fitting model. The model with interaction terms (Model 2) explains only a small but non-significant ($p = 0.076)$) relative to the simpler model (Model 1).
+
+
+## Visualizing Linear Models
+
+### Figure that visualizes the effect of Poverty upon CVD and other variables 
+```{r}
+# Plotting Poverty vs CVD with regression line
+poverty_vs_cvd_plot <- ggplot(data = cvd_data, aes(x = Poverty, y = CVD)) +
+  geom_point(color = "#1f77b4", alpha = 0.8) +  # Blue points
+  geom_smooth(method = "lm", color = "#ff7f0e", fill = "#ffd4a3", se = TRUE) +  
+  labs(
+    title = "Poverty vs CVD",
+    x = "Poverty (%)",
+    y = "CVD Prevalence"
+  ) +
+  theme_minimal() +  # Cleaner theme
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold")
+  )
+
+print(poverty_vs_cvd_plot)
+
+
+common_theme <- theme(
+  plot.title = element_text(hjust = 0.5, face = "bold"),
+  panel.background = element_rect(fill = "white"),
+  panel.grid.major = element_line(color = "grey90")
+)
+
+
+```
+
+Poverty vs CVD
+
+This suggests an inverse relationship of poverty rates with CVD prevalence as depicted by the negative sloping regression line in the graph. This indicates that with increasing poverty, CVD prevalence tends to decrease slightly. On the downside, we note that the data points are spread quite widely, suggesting a weak correlation. The confidence interval around the regression line is narrow and shaded, indicating stable estimates. Two outliers that fall farthest at either end of the poverty rate spectrum do not necessarily fit the trend, possibly suggesting regional variances. Such a relationship could be due to multifactorial socio-economic drivers, meriting further analysis to identify root causes.
+
+
+
+## Conclusion
+
+The findings indicate that multiple factors notably affect the occurrence of cardiovascular disease (CVD) within a region. Specifically, areas characterized by a higher percentage of overweight individuals generally experience a modest rise in CVD rates; for every 1% increase in the population deemed overweight, there is an anticipated 0.12% escalation in CVD cases. Likewise, regions with elevated smoking rates observe a similar trend: each additional 1% of smokers correlates with a 0.13% uptick in CVD prevalence. Conversely, it is noteworthy that increased wellbeing scores correlate positively with CVD incidence—each unit increment in wellbeing predictions corresponds to an approximate rise of 1.45% in CVD rates. In contrast, poverty appears to exert a protective influence; specifically, when poverty levels increase by 1%, there tends to be an associated decrease of about 0.22% in instances of CVD. These results underscore the complex relationships between these various factors and their differing implications on cardiovascular health outcomes.
+
+
+
+---
+
+# Question 2
+
+## Introduction
+
+This part explores what drives customer satisfaction, examining correlations between customer satisfaction and staff satisfaction scores, average delivery time for large and bespoke items, new product range availability, and the store SES classification. It also indicates whether delivery times are correlated with the level of customer satisfaction in both high, medium and low SIS stores consistently. This analysis is conducted using professional statistical practices, and reproducible code is provided to facilitate transparency and confirmability.
+
+
+## Data Dictionary
+Variable | Description
+------------- | -------------
+SES category| The socio-economic status of the customer 
+Customer satisfaction| shows the level of customer satisfaction
+Staff satisfaction| shows the level of satisfaction of staff 
+Delivery time| The total time taken for the product to be delivered 
+New range| shows true/false column based on condition 
+
+
+## Exploratory Analysis
+
+### Data Understanding
+
+```{r}
+# Loading the dataset
+cust_data <- read_csv("cust_satisfaction.csv")
+
+summary(cust_data)
+```
+
+The dataset comprises 300 entries across 5 columns, offering insights into socio-economic status (SES), customer satisfaction, staff satisfaction, delivery time, and a categorical variable denoted as `new range`. The SES_category column classifies customers according to their socio-economic standing. Satisfaction levels are recorded in the customer.satisfaction and staff.satisfaction columns, which present median values of 7.0 and 6.634 respectively on a scale approximately ranging from 3.6 to 9.6. Delivery times vary between 4.85 and 92.48 units (potentially minutes or hours), with a median of 60.45 units noted in the data set. The new_range column functions as a logical variable with observations indicating that there are 158 instances marked as `TRUE` and another 142 marked as `FALSE`. This dataset features an even distribution of numerical and categorical variables conducive for examining trends related to customer satisfaction, staff contentment, efficient delivery practices, along with SES correlations.
+
+### Data Preparation
+```{r}
+# The conversion of categorical data to factors
+cust_data$SES_category <- factor(cust_data$SES_category, levels = c("Low", "Medium", "High"))
+cust_data$new_range <- as.factor(cust_data$new_range)
+```
+
+### Data Visualization
+
+#### Illustrating the Distribution of Customer Satisfaction Scores
+
+```{r}
+ggplot(cust_data, aes(x = customer.satisfaction)) + 
+  geom_histogram(binwidth = 0.3, fill = "skyblue", color = "black") +  
+  labs(
+    title = "Customer Satisfaction Distribution",
+    x = "Customer Satisfaction",
+    y = "Frequency"
+  ) +
+  theme_minimal() +  
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+The histogram illustrates the spread of customer satisfaction ratings. These scores fall between about 4 and 10, with a significant number of customers indicating satisfaction levels from 6 to 8. The distribution appears largely symmetrical, reflecting an even dispersion in satisfaction ratings, peaking around a score of 7. This implies that most customers feel moderately too highly satisfied. Instances of low or high outlier scores are infrequent, suggesting overall consistency in customer satisfaction within the dataset.
+
+#### Illustrating the Distribution of Delivery Time and Employee Satisfaction
+```{r}
+# Ploting for Staff Satisfaction Distribution
+g2 <- ggplot(cust_data, aes(x = staff.satisfaction)) + 
+  geom_histogram(binwidth = 0.2, fill = "maroon", color = "black") +  
+  labs(
+    title = "Staff Satisfaction Distribution",
+    x = "Staff Satisfaction",
+    y = "Frequency"
+  ) +
+  theme_minimal() +  
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Ploting for Delivery Time Distribution
+g3 <- ggplot(cust_data, aes(x = delivery.time)) + 
+  geom_histogram(binwidth = 1, fill = "orange", color = "black") +  
+  labs(
+    title = "Delivery Time Distribution",
+    x = "Delivery Time",
+    y = "Frequency"
+  ) +
+  theme_minimal() +  
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+
+grid.arrange(g2, g3)
+```
+
+The Staff Satisfaction Distribution graph illustrates that the levels of satisfaction vary between roughly 5 and 9, with a notable concentration at a score of 7. The distribution appears to be symmetrical, reflecting an even representation of staff satisfaction across the dataset.
+
+In contrast, the Delivery Time Distribution graph reveals that delivery times extend from about 30 to 90, peaking at around 60. This distribution shows a slight right skewness, indicating there are few cases where delivery times are significantly longer than average.
+
+Overall, these distributions underscore a general stability in both staff satisfaction and delivery times while showing few extreme outliers in either measure.
+
+
+## Linear Regression
+```{r}
+# Step 5: Linear Modeling
+lm_model <- lm(customer.satisfaction ~ SES_category + staff.satisfaction + delivery.time + new_range, 
+               data = cust_data)
+
+# Model summary and confidence intervals
+list(
+  Summary = summary(lm_model),
+  ConfidenceIntervals = confint(lm_model)
+)
+```
+### Linear Regression Model Overview
+
+The model accounts for 43.76% of the variability in customer satisfaction ($R^2 = 0.4376$), ($p < 0.0001$).
+
+1. key Predictors:
+   - SES (Medium): Exhibits a positive influence ($\beta = 1.465$), ($p < 0.001$).
+   - Staff Satisfaction: Shows a positive correlation ($\beta = 0.351$), ($p < 0.001$).
+   - Delivery Time: Demonstrates a negative effect ($\beta = -0.017$), ($p < 0.001$).
+
+2. Predictors with No Significant Impact:
+   - SES (High): Displays minimal impact ($p = 0.065$).
+   - new_range: Indicates no significant influence ($p = 0.404$).
+
+The primary factors influencing customer satisfaction include SES at the medium level, staff happiness, and delivery time considerations.
+
+
+
+```{r}
+#LM model with interaction of SES on delivery
+model_delivery_interaction <- lm(customer.satisfaction ~ delivery.time * SES_category, data = cust_data)
+summary(model_delivery_interaction)
+```
+
+```{r}
+confint(model_delivery_interaction)
+```
+
+### Interpretation of Confidence Intervals 
+
+The 95% confidence intervals for the coefficients in the linear regression model reveal the following insights:
+
+- Delivery Time: The effect on the outcome is considered non-significant ($p > .05$), with a coefficient estimate of -0.011 (95% CI = [-0.021, 0.011]).  
+- SES Category (Medium): A significant positive impact has been observed ($p < .05$), indicating that Medium SES is associated with an average increase of 0.99 units in the outcome compared to Low SES (95% CI = [0.99, 3.85]).  
+- SES Category (High): There is also a significant positive influence ($p < .05$) for High SES, which predicts an average rise of 0.60 units in the outcome relative to Low SES (95% CI = [0.60, 3.65]).  
+- Interaction (Delivery Time × SES Category Medium): This interaction shows a non-significant result ($p > .05$), with an estimated coefficient of -0.017 (95% CI = [-0.034, 0.013]).  
+- Interaction (Delivery Time × SES Category High): In this case, there is a significant negative interaction ($p < .05$). Each additional unit increment in delivery time corresponds to a predicted decrease of 0.05 units in the outcome for individuals within High SES when compared to those from Low SES (95% CI = [-0.054, -0.005]).
+
+
+```{r}
+# Step 5: Linear Modeling with Interaction Term
+lm_model_2 <- lm(customer.satisfaction ~ SES_category + staff.satisfaction + SES_category:delivery.time + new_range, 
+                 data = cust_data)
+
+# model summary and confidence intervals
+model_summary <- summary(lm_model_2)
+model_confint <- confint(lm_model_2)
+
+# results
+list(Summary = model_summary, ConfidenceIntervals = model_confint)
+```
+
+### Linear Regression Model with Interaction Term: Results
+
+This model assesses the factors influencing customer satisfaction, incorporating an interaction term between SES_category and delivery time. The primary findings are summarized below:
+
+1. Model Fit:
+   - Adjusted ($R^2 = 0.4473$): This indicates that 44.73% of the variability in customer satisfaction can be explained by the model.
+   - F-statistic ($p < 0.0001$): The overall significance of the model is confirmed.
+
+2. Main Effects:
+   - SES_category (Medium and High): Both categories show a significant positive relationship with customer satisfaction ($\beta = 2.224$, $p = 0.0018$),($\beta = 2.225$, $p = 0.0033$).
+   - Staff Satisfaction: There is a notable positive influence on customer satisfaction ($\beta = 0.360$, $p < 0.0001$).
+   - Delivery Time: For the reference level of SES, no significant effect was found ($p = 0 .63$).
+
+3. Interaction Effects:
+   - SES_category (High) x Delivery Time: A statistically significant negative interaction exists ($\beta = -0 .036$, $p < 0 .0001$), suggesting that longer delivery times adversely affect High SES customers more intensely.
+   - SES_category (Medium) x Delivery Time: A nearly significant negative interaction was noted ($\beta=-0 .016$ ,$p=059$).
+
+4. Non-Significant Predictors: new_range: No noteworthy impact observed ($p=035$)
+
+5.Confidence Intervals: Significant predictors such as SES category and staff satisfaction have confidence intervals excluding zero for their respective effects.
+
+Customer satisfaction is notably affected by SES_category levels, staff contentment, and their interplay with delivery time—especially among those in higher socioeconomic status groups where extended delivery periods exert greater detrimental effects compared to other segments.
+
+```{r}
+confint(lm_model_2)
+```
+### Interpretation of Confidence Intervals
+
+Significant Predictors:
+
+1. SES_category (Medium, High): Indicate positive effects as the confidence intervals do not encompass zero.
+
+2. Staff Satisfaction: Shows a positive relationship with a confidence interval ranging from [0.203 to 0.517].
+
+3. SES_category (High) x Delivery Time: Represents a negative interaction effect, indicated by the confidence interval of [-0.054 to -0.019].
+
+Non-Significant Predictors:
+
+1. The variable new_range, along with interactions involving SES_category (Low, Medium) x Delivery Time, presents confidence intervals that include zero.
+
+Customer satisfaction is significantly influenced by SES categories classified as Medium and High, staff satisfaction levels, and the interaction between high SES and delivery time
+
+### ANOVA
+```{r}
+anova(lm_model,lm_model_2)
+
+```
+
+The ANOVA analysis assesses two models to determine the impact of including the interaction term `SES_category:delivery.time`. Model 1 consists of the main effects from `SES_category`, `staff.satisfaction`, `delivery.time`, and `new_range`. In contrast, Model 2 adds this interaction term. The findings reveal that incorporating the interaction term significantly enhances model performance, as evidenced by an F-statistic of (3.5805) with a (p)-value of 0.029. The additional variance accounted for by this interaction is measured at 6.6032 units. This indicates that delivery time's influence on customer satisfaction differs based on SES category, highlighting the relevance of adding this interaction term to appropriately capture these variations.
+
+
+```{r}
+
+emm <- emmeans(lm_model_2, ~ SES_category | delivery.time)
+summary(emm)
+
+```
+The analysis of estimated marginal means (EMM) indicates variations in customer satisfaction based on socioeconomic status (SES) category and delivery duration. When the delivery time is set at 60 minutes, Medium SES customers report the highest level of satisfaction with a mean score of 7.81 (95% CI: 7.60–8.02). This group is followed by High SES customers who have a mean satisfaction score of 6.60 (95% CI: 6.40–6.79), while Low SES customers show a slightly lower mean score of 6.32 (95% CI: 6.12–6.52). 
+
+As the delivery time extends to 90 minutes, there is an observable decline in satisfaction across all SES categories, particularly among High SES individuals whose average drops significantly to a mean of 5.51 (95% CI: 4.93–6.09). Conversely, shorter delivery durations—specifically at the mark of just 30 minutes—result in increased levels of customer contentment across every SES group; here, Medium SES emerges with the peak average satisfaction rating at eight point two nine while High SES also improves its standing with an average score reaching seven point six eight.
+
+## Conclusion
+In conclusion, Medium SES consistently demonstrates superior overall satisfaction compared to other groups as longer wait times correlate negatively with their happiness levels—in particular for those within the High SES bracket—as evidenced by data reflecting that quicker deliveries yield optimal customer gratification.
+
+
+
