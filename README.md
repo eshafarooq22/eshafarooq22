@@ -1,7 +1,6 @@
-## Esha-project-portfolio 👋
+# 📊 Esha's Project Portfolio
 
-Welcome to my project portfolio!  
-Here you’ll find a collection of academic and professional projects showcasing my skills in **finance, data analysis, optimisation, and database management**.  
+Welcome! This portfolio showcases a selection of my projects demonstrating skills in **finance, optimisation, data analysis, machine learning, and revenue management** using tools like Python, R, SQLite, Tableau, and advanced statistical techniques. 
 ---
 
 ## 🚀 Projects
