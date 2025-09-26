@@ -9,7 +9,7 @@ Here you’ll find a collection of academic and professional projects showcasing
 - Led a **5-member team** to solve **10 supply chain, production, and finance optimisation problems** in Python (Spyder)  
 - Designed **custom algorithms** for AI-resistant cases  
 
-🔗 [View Project](link-to-your-repo)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/Group-39.zip)
 
 ---
 
