@@ -100,14 +100,14 @@ Here you’ll find a collection of academic and professional projects showcasing
 
 ---
 ## 🛠️ Skills Highlighted
-- **Programming & Tools**: Python (Pandas, NumPy, Matplotlib, SciPy), SQLite, SQL, Spyder  
-- **Finance & Business**: Capital strategy, KPIs, WACC, debt management  
-- **Data & Analytics**: A/B testing, statistical analysis, optimisation models, database design  
+- **Programming & Tools:** Python, R, SQLite, SQL, Spyder, RMarkdown, Tableau, Plotly, scikit-learn, PyTorch  
+- **Finance & Business:** Capital strategy, KPIs, WACC, debt management, portfolio optimisation, revenue management  
+- **Data & Analytics:** A/B testing, statistical analysis, optimisation models, machine learning, database design, visualisation  
+- **Professional Skills:** Reproducible reporting, clear documentation, teamwork, technical communication, client presentation  
 
 ---
 
-✨ Thanks for visiting my portfolio!  
-Feel free to connect with me on [LinkedIn](your-linkedin-link) or explore more of my repositories.  
+✨ Thanks for visiting my portfolio! Feel free to connect on [LinkedIn](www.linkedin.com/in/eshafarooq22) .  
 
 
 
