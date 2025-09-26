@@ -81,6 +81,18 @@ Here you’ll find a collection of academic and professional projects showcasing
 🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/IBL990-Financial-Analytics-Group-Assignment_Group11.zip)
 
 ---
+### 💰 Pricing Analytics
+- Executed a **group revenue management project** for BuildMax Rentals, a large European and North American construction equipment rental company  
+- **Linear Programming & Optimisation:** Defined decision variables, constraints, and objective function to **maximise revenue**  
+- Compared optimised results with historical revenue and calculated **ROI improvements**  
+- **Insights & Recommendations:** Provided actionable guidance for fleet allocation, pricing, and revenue management  
+- **Presentation & Communication:** Delivered a professional presentation focusing on **business value** for management  
+
+**Skills & Tools:** Python, Pandas, NumPy, PuLP (or linear programming solver), Matplotlib, revenue management, optimisation, fleet utilisation  
+
+🔗 [View Project](https://github.com/your-username/pricing-analytics)
+
+---
 ## 🛠️ Skills Highlighted
 - **Programming & Tools**: Python (Pandas, NumPy, Matplotlib, SciPy), SQLite, SQL, Spyder  
 - **Finance & Business**: Capital strategy, KPIs, WACC, debt management  
