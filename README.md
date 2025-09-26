@@ -26,7 +26,7 @@ Here you’ll find a collection of academic and professional projects showcasing
 - Designed and normalised an **SQLite database** for a beauty e-commerce startup  
 - Generated **500+ synthetic records**, created **ERD**, and delivered SQL-driven insights on **sales and customer behaviour**  
 
-🔗 [View Project](link-to-your-repo)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/DM-Group-31.zip)
 
 ---
 
