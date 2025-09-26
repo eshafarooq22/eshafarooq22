@@ -77,7 +77,8 @@ Here you’ll find a collection of academic and professional projects showcasing
 
 **Skills & Tools:** Python, NumPy, Pandas, Matplotlib, mean-variance optimisation, financial analytics, risk-return analysis  
 
-🔗 [View Project](https://github.com/your-username/financial-analytics)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/FA_5613045.zip)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/IBL990-Financial-Analytics-Group-Assignment_Group11.zip)
 
 ---
 ## 🛠️ Skills Highlighted
