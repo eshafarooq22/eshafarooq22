@@ -55,7 +55,19 @@ Here you’ll find a collection of academic and professional projects showcasing
 🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/Group-11-AAMA.zip)
 
 ---
+### 🛒 Analytics in Practice
+- Delivered an end-to-end **predictive analytics project** simulating a consultancy engagement for a South American eCommerce platform, “Nile”  
+- **Data Engineering:** Joined, aggregated, cleaned, and feature-engineered 8 CSV tables  
+- **Modelling:** Implemented machine learning models to predict customer reviews (binary, multi-class, and regression)  
+- **Project Approach:** Followed **CRISP-DM methodology**: Business understanding → Data preparation → Modelling → Evaluation → Presentation  
+- **Presentation & Managerial Insights:** Recorded a **10-minute pitch** for client management, highlighting actionable insights  
+- **Technical Documentation:** Submitted reproducible Python scripts/notebooks and a **technical report**  
 
+**Skills & Tools:** Python, Pandas, scikit-learn, PyTorch, Plotly, Tableau, machine learning, CRISP-DM, client communication  
+
+🔗 [View Project](https://github.com/your-username/analytics-in-practice)
+
+---
 
 ## 🛠️ Skills Highlighted
 - **Programming & Tools**: Python (Pandas, NumPy, Matplotlib, SciPy), SQLite, SQL, Spyder  
