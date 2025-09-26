@@ -68,7 +68,18 @@ Here you’ll find a collection of academic and professional projects showcasing
 🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/group_number_34.zip)
 
 ---
+### 💹 Financial Analytics
+- Conducted an **individual analysis** of **mean-variance portfolio strategies** using real-world equity data from Ken French’s data library  
+- **Portfolio Strategies:** Evaluated **MV** (unconstrained), **NSMV** (no short-selling), and **MIMV** (minimum investment per asset)  
+- **In-sample & Out-of-sample Evaluation:** Computed optimal portfolios at each time step and analyzed performance  
+- **Results Visualization:** Generated tables and **mean-standard deviation diagrams** to compare strategies  
+- **Analysis & Interpretation:** Discussed the effect of constraints on risk-return trade-offs and provided actionable insights for portfolio selection  
 
+**Skills & Tools:** Python, NumPy, Pandas, Matplotlib, mean-variance optimisation, financial analytics, risk-return analysis  
+
+🔗 [View Project](https://github.com/your-username/financial-analytics)
+
+---
 ## 🛠️ Skills Highlighted
 - **Programming & Tools**: Python (Pandas, NumPy, Matplotlib, SciPy), SQLite, SQL, Spyder  
 - **Finance & Business**: Capital strategy, KPIs, WACC, debt management  
