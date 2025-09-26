@@ -38,7 +38,9 @@ Here you’ll find a collection of academic and professional projects showcasing
 
 **Skills & Tools:** R, RMarkdown, tidyverse, regression, hypothesis testing, data visualisation  
 
-🔗 [View Project](https://github.com/your-username/business-statistics-project)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/5613045.html)
+🔗 [View Project](https://github.com/eshafarooq22/eshafarooq22/blob/main/5613045.Rmd)
+
 
 ---
 
